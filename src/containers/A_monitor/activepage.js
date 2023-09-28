@@ -167,7 +167,7 @@ const SortIcon = ({ column, sortBy, sortDirection }) => {
 };
 
 const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
-  const firstURL = `https://mayanode.mayachain.info/${address}`;
+  const firstURL = `https://mayanode.mayachain.info/mayachain/node/${address}`;
   const secondURL = `https://www.mayascan.org/address/${address}`;
   return (
     <span style={{ height: 20, marginLeft: 5 }} className="icons-wrapper">
