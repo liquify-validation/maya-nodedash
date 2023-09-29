@@ -46,7 +46,7 @@ import imageZenlayer from "@iso/assets/images/zenlayer.png";
 import imageAljeel from "@iso/assets/images/Aljeel.png";
 import imageHostinger from "@iso/assets/images/Hostinger.png";
 
-import dash from "@iso/assets/images/dash-logo.png";
+import dash from "@iso/assets/images/dash-d-circle-250.png";
 import thor from "@iso/assets/images/thorchain-logo.png";
 import eth from "@iso/assets/images/eth.png";
 import bitcoin from "@iso/assets/images/bitcoin.png";
@@ -1282,7 +1282,7 @@ const NodeTable = ({
                           }}
                         />
                         <SortIcon
-                          column={"THOR"}
+                          column={"ETH"}
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
