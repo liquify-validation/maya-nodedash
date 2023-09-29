@@ -1282,7 +1282,7 @@ const NodeTable = ({
                           }}
                         />
                         <SortIcon
-                          column={"THOR"}
+                          column={"ETH"}
                           sortBy={sortBy}
                           sortDirection={sortDirection}
                         />
