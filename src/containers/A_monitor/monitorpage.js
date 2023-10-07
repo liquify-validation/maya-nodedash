@@ -1289,6 +1289,7 @@ const NodeTable = ({
                         />
                       </div>
                     </th>
+
                     <th
                       className={getHeaderClassName("THOR")}
                       style={{
@@ -1322,6 +1323,7 @@ const NodeTable = ({
                         />
                       </div>
                     </th>
+
                     <th
                       className={getHeaderClassName("KUJI")}
                       style={{
@@ -1820,6 +1822,7 @@ const defaulColumns = {
   DASH: true,
   ETH: true,
   THOR: true,
+  KUJI: true,
 };
 export default class extends Component {
   static contextType = ThemeContext;
@@ -2187,6 +2190,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       "BTC",
       "ETH",
       "THOR",
+      "KUJI",
     ].includes(item);
     const direction =
       this.state.sortBy !== item
