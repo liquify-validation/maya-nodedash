@@ -44,6 +44,7 @@ import imageHostinger from "@iso/assets/images/Hostinger.png";
 import dash from "@iso/assets/images/dash-d-circle-250.png";
 import thor from "@iso/assets/images/thorchain-logo.png";
 import eth from "@iso/assets/images/eth.png";
+import kuji from "@iso/assets/images/kuji.png";
 import bitcoin from "@iso/assets/images/bitcoin.png";
 import blockIcon from "@iso/assets/images/overview/block_icon.svg";
 import blockIconDark from "@iso/assets/images/overview/block_icon_darkmode.svg";
@@ -1296,6 +1297,39 @@ const NodeTable = ({
                         />
                       </div>
                     </th>
+                    <th
+                      className={getHeaderClassName("KUJI")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
+                      onClick={() => clickSortHeader("KUJI")}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img
+                          alt="#"
+                          src={kuji}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"KUJI"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
+                    </th>
                   </>
                 )}
               </tr>
@@ -1688,6 +1722,11 @@ const NodeTable = ({
                       />
                       <ChainTD
                         chain={"THOR"}
+                        obchains={item.obchains}
+                        maxChainHeights={maxChainHeights}
+                      />
+                      <ChainTD
+                        chain={"KUJI"}
                         obchains={item.obchains}
                         maxChainHeights={maxChainHeights}
                       />

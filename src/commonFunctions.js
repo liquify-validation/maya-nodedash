@@ -139,6 +139,7 @@ export const getData = async () => {
   const maxGAIAHeight = reduceDown(data2, "GAIA");
   const maxAVAXHeight = reduceDown(data2, "AVAX");
   const maxBSCHeight = reduceDown(data2, "BSC");
+  const maxKUJIHeight = reduceDown(data2, "KUJI");
 
   const totalBondedValue =
     val.data.map((item) => item.bond).reduce((prev, next) => prev + next) /
@@ -158,6 +159,7 @@ export const getData = async () => {
       DASH: maxDASHHeight,
       AVAX: maxAVAXHeight,
       BSC: maxBSCHeight,
+      KUJI: maxKUJIHeight
     },
   };
 };

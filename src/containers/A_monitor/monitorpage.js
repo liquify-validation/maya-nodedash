@@ -1321,6 +1321,39 @@ const NodeTable = ({
                         />
                       </div>
                     </th>
+                    <th
+                      className={getHeaderClassName("KUJI")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
+                      onClick={() => clickSortHeader("KUJI")}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img
+                          alt="#"
+                          src={kuji}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"KUJI"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
+                    </th>
                   </>
                 )}
               </tr>
@@ -1722,6 +1755,11 @@ const NodeTable = ({
                       />
                       <ChainTD
                         chain={"THOR"}
+                        obchains={item.obchains}
+                        maxChainHeights={maxChainHeights}
+                      />
+                      <ChainTD
+                        chain={"KUJI"}
                         obchains={item.obchains}
                         maxChainHeights={maxChainHeights}
                       />
