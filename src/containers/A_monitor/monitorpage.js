@@ -50,6 +50,7 @@ import dash from "@iso/assets/images/dash-d-circle-250.png";
 import thor from "@iso/assets/images/thorchain-logo.png";
 import eth from "@iso/assets/images/eth.png";
 import bitcoin from "@iso/assets/images/bitcoin.png";
+import kuji from "@iso/assets/images/kuji.png";
 
 import blockIcon from "@iso/assets/images/overview/block_icon.svg";
 import blockIconDark from "@iso/assets/images/overview/block_icon_darkmode.svg";
