@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import { UpOutlined, DownOutlined, DotChartOutlined } from "@ant-design/icons";
+import { decimalDivider } from "./data.js";
 import CustomLineChart from "./CustomLineChart";
 import CustomScatterChart from "./CustomScatterChart";
 //import LayoutContentWrapper from '@iso/components/utility/layoutWrapper';
@@ -404,7 +405,8 @@ const GlobalData = ({
                       ? parseInt(
                           state.activeNodes
                             .map((item) => item.bond)
-                            .reduce((prev, next) => prev + next) / 10000000000
+                            .reduce((prev, next) => prev + next) /
+                            decimalDivider
                         )
                       : 0) * globalData?.coingecko?.current_price
                   ).toLocaleString()}
@@ -423,15 +425,15 @@ const GlobalData = ({
                 ? parseInt(
                     state.activeNodes
                       .map((item) => item.bond)
-                      .reduce((prev, next) => prev + next) / 10000000000
+                      .reduce((prev, next) => prev + next) / decimalDivider
                   ).toLocaleString()
-                : "0"} CACAO
+                : "0"}{" "}
+              CACAO
             </div>
           </Popover>
         </div>
       </div>
 
-      
       <div className="overview-item">
         <img
           alt="#"
@@ -451,7 +453,7 @@ const GlobalData = ({
             <p>
               $
               {(
-                parseInt(globalData.maxEffectiveStake / 10000000000) *
+                parseInt(globalData.maxEffectiveStake / decimalDivider) *
                 globalData?.coingecko?.current_price
               ).toLocaleString()}
             </p>
@@ -496,8 +498,9 @@ const GlobalData = ({
               <div className="overview-item__value-value">
                 <HistoryOutlined style={{ marginRight: 4 }} />
                 {parseInt(
-                  globalData.maxEffectiveStake / 10000000000
-                ).toLocaleString()} CACAO
+                  globalData.maxEffectiveStake / decimalDivider
+                ).toLocaleString()}{" "}
+                CACAO
               </div>
             </div>
           </div>
@@ -587,7 +590,7 @@ const CoinGeckoData = ({ globalData }) => {
           </div>
         </div>
       </div>
-      
+
       <div className="overview-item">
         <img
           alt="#"
@@ -712,7 +715,8 @@ const BondProviderPopOver = ({ data }) => {
         </span>
         <span>{((item.bond / totalBond) * 100).toFixed(2)}%</span>
         <span>
-          {parseInt((item.bond / 100000000000).toFixed()).toLocaleString()} CACAO
+          {parseInt((item.bond / decimalDivider).toFixed()).toLocaleString()}{" "}
+          CACAO
         </span>
       </div>
     );
@@ -975,7 +979,10 @@ const NodeTable = ({
                       justifyContent: "center",
                     }}
                   >
-                    <span style={{ marginRight: "5px" }}>Bond <br />(CACAO)</span>
+                    <span style={{ marginRight: "5px" }}>
+                      Bond <br />
+                      (CACAO)
+                    </span>
                     <SortIcon
                       column={"bond"}
                       sortBy={sortBy}
@@ -1023,7 +1030,10 @@ const NodeTable = ({
                       justifyContent: "center",
                     }}
                   >
-                    <span style={{ marginRight: "5px" }}>Rewards <br />(CACAO)</span>
+                    <span style={{ marginRight: "5px" }}>
+                      Rewards <br />
+                      (CACAO)
+                    </span>
                     <SortIcon
                       column={"current_award"}
                       sortBy={sortBy}
@@ -1486,7 +1496,7 @@ const NodeTable = ({
                           <p>
                             $
                             {(
-                              parseInt((item.bond / 10000000000).toFixed()) *
+                              parseInt((item.bond / decimalDivider).toFixed()) *
                               globalData?.coingecko?.current_price
                             ).toLocaleString()}
                           </p>
@@ -1529,7 +1539,7 @@ const NodeTable = ({
                         >
                           <HistoryOutlined style={{ marginRight: 4 }} />
                           {parseInt(
-                            (item.bond / 10000000000).toFixed()
+                            (item.bond / decimalDivider).toFixed()
                           ).toLocaleString()}
                         </span>
                       </Popover>
@@ -1565,7 +1575,7 @@ const NodeTable = ({
                             $
                             {(
                               parseInt(
-                                (item.current_award / 10000000000).toFixed()
+                                (item.current_award / decimalDivider).toFixed()
                               ) * globalData?.coingecko?.current_price
                             ).toLocaleString()}
                           </p>
@@ -1608,7 +1618,7 @@ const NodeTable = ({
                         >
                           <HistoryOutlined style={{ marginRight: 4 }} />
                           {parseInt(
-                            (item.current_award / 10000000000).toFixed()
+                            (item.current_award / decimalDivider).toFixed()
                           ).toLocaleString()}
                         </span>
                       </Popover>
@@ -2185,13 +2195,7 @@ We use string sort function if value is one of the arrays else do second sort nu
   }
 
   clickSortHeader(item) {
-    const isChain = [
-      "DASH",
-      "BTC",
-      "ETH",
-      "THOR",
-      "KUJI",
-    ].includes(item);
+    const isChain = ["DASH", "BTC", "ETH", "THOR", "KUJI"].includes(item);
     const direction =
       this.state.sortBy !== item
         ? "desc"
@@ -2281,7 +2285,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       } else {
         const chartData = Object.entries(rawData).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000000),
+          y: Math.round(Number(y) / decimalDivider),
         }));
 
         this.setState({ chartData });
@@ -2302,7 +2306,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       } else {
         const chartData = Object.entries(rawData).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000000),
+          y: Math.round(Number(y) / decimalDivider),
         }));
 
         this.setState({ chartData });
@@ -2323,7 +2327,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       } else {
         const chartData = Object.entries(rawData).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000000),
+          y: Math.round(Number(y) / decimalDivider),
         }));
         this.setState({ chartData });
       }
@@ -2343,7 +2347,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       } else {
         const chartData = Object.entries(rawData).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000000),
+          y: Math.round(Number(y) / decimalDivider),
         }));
         this.setState({ chartData });
       }
@@ -2760,9 +2764,21 @@ We use string sort function if value is one of the arrays else do second sort nu
               <img
                 alt="#"
                 src={mayaLogo}
-                style={{ width: 180, margin: "auto 10px auto 0", verticalAlign: 'middle' }}
+                style={{
+                  width: 180,
+                  margin: "auto 10px auto 0",
+                  verticalAlign: "middle",
+                }}
               />
-              <span style={{ color: "white", verticalAlign: 'middle', marginTop: '25px' }}>Monitor</span>
+              <span
+                style={{
+                  color: "white",
+                  verticalAlign: "middle",
+                  marginTop: "25px",
+                }}
+              >
+                Monitor
+              </span>
             </Link>
           </div>
           <div className="header-right">

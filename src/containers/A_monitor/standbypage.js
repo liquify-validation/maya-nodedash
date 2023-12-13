@@ -3,6 +3,7 @@ import Modals from "@iso/components/Feedback/Modal";
 import Popover from "@iso/components/uielements/popover";
 import { getData, setCookie, getCookie } from "CommonFunctions";
 import { ModalContent } from "../Feedback/Modal/Modal.styles";
+import { decimalDivider } from "./data.js";
 import { Layout, Button, Input, Breadcrumb, Select } from "antd";
 import CustomLineChart from "./CustomLineChart";
 import CustomScatterChart from "./CustomScatterChart";
@@ -387,7 +388,8 @@ const GlobalData = ({
                       ? parseInt(
                           state.activeNodes
                             .map((item) => item.bond)
-                            .reduce((prev, next) => prev + next) / 10000000000
+                            .reduce((prev, next) => prev + next) /
+                            decimalDivider
                         )
                       : 0) * globalData?.coingecko?.current_price
                   ).toLocaleString()}
@@ -406,15 +408,15 @@ const GlobalData = ({
                 ? parseInt(
                     state.activeNodes
                       .map((item) => item.bond)
-                      .reduce((prev, next) => prev + next) / 10000000000
+                      .reduce((prev, next) => prev + next) / decimalDivider
                   ).toLocaleString()
-                : "0"} CACAO
+                : "0"}{" "}
+              CACAO
             </div>
           </Popover>
         </div>
       </div>
 
-      
       <div className="overview-item">
         <img
           alt="#"
@@ -434,7 +436,7 @@ const GlobalData = ({
             <p>
               $
               {(
-                parseInt(globalData.maxEffectiveStake / 10000000000) *
+                parseInt(globalData.maxEffectiveStake / decimalDivider) *
                 globalData?.coingecko?.current_price
               ).toLocaleString()}
             </p>
@@ -479,8 +481,9 @@ const GlobalData = ({
               <div className="overview-item__value-value">
                 <HistoryOutlined style={{ marginRight: 4 }} />
                 {parseInt(
-                  globalData.maxEffectiveStake / 10000000000
-                ).toLocaleString()} CACAO
+                  globalData.maxEffectiveStake / decimalDivider
+                ).toLocaleString()}{" "}
+                CACAO
               </div>
             </div>
           </div>
@@ -570,7 +573,7 @@ const CoinGeckoData = ({ globalData }) => {
           </div>
         </div>
       </div>
-      
+
       <div className="overview-item">
         <img
           alt="#"
@@ -597,7 +600,13 @@ const ReturnIspImage = ({ isp }) => {
     isp === "Amazon Technologies Inc." ||
     isp === "Amazon.com"
   ) {
-    return <img alt="#" src={theme === "light" ? imageAWS : imageAWSDark} style={style} />;
+    return (
+      <img
+        alt="#"
+        src={theme === "light" ? imageAWS : imageAWSDark}
+        style={style}
+      />
+    );
   }
   if (isp === "DigitalOcean, LLC" || isp === "DigitalOcean") {
     return <img alt="#" src={imageDO} style={style} />;
@@ -690,7 +699,8 @@ const BondProviderPopOver = ({ data }) => {
         </span>
         <span>{((item.bond / totalBond) * 100).toFixed(2)}%</span>
         <span>
-          ᚱ{parseInt((item.bond / 100000000000).toFixed()).toLocaleString()} CACAO
+          ᚱ{parseInt((item.bond / decimalDivider).toFixed()).toLocaleString()}{" "}
+          CACAO
         </span>
       </div>
     );
@@ -916,7 +926,8 @@ const NodeTable = ({
                   }}
                 >
                   <span onClick={() => clickSortHeader("bond")}>
-                  Bond <br />(CACAO)
+                    Bond <br />
+                    (CACAO)
                     <SortIcon
                       column={"bond"}
                       sortBy={sortBy}
@@ -950,7 +961,8 @@ const NodeTable = ({
                   }}
                 >
                   <span onClick={() => clickSortHeader("current_award")}>
-                  Rewards <br />(CACAO)
+                    Rewards <br />
+                    (CACAO)
                     <SortIcon
                       column={"current_award"}
                       sortBy={sortBy}
@@ -1248,7 +1260,7 @@ const NodeTable = ({
                           <p>
                             $
                             {(
-                              parseInt((item.bond / 10000000000).toFixed()) *
+                              parseInt((item.bond / decimalDivider).toFixed()) *
                               globalData?.coingecko?.current_price
                             ).toLocaleString()}
                           </p>
@@ -1291,7 +1303,7 @@ const NodeTable = ({
                         >
                           <HistoryOutlined style={{ marginRight: 4 }} />
                           {parseInt(
-                            (item.bond / 10000000000).toFixed()
+                            (item.bond / decimalDivider).toFixed()
                           ).toLocaleString()}
                         </span>
                       </Popover>
@@ -1328,7 +1340,7 @@ const NodeTable = ({
                             $
                             {(
                               parseInt(
-                                (item.current_award / 10000000000).toFixed()
+                                (item.current_award / decimalDivider).toFixed()
                               ) * globalData?.coingecko?.current_price
                             ).toLocaleString()}
                           </p>
@@ -1371,7 +1383,7 @@ const NodeTable = ({
                         >
                           <HistoryOutlined style={{ marginRight: 4 }} />
                           {parseInt(
-                            (item.current_award / 10000000000).toFixed()
+                            (item.current_award / decimalDivider).toFixed()
                           ).toLocaleString()}
                         </span>
                       </Popover>
@@ -1531,9 +1543,7 @@ const NodeTable = ({
                   )}
                 </tr>
               ))}
-              <tr>
-                
-              </tr>
+              <tr></tr>
             </tbody>
           </table>
         </div>
@@ -2013,7 +2023,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       } else {
         const chartData = Object.entries(rawData).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000000),
+          y: Math.round(Number(y) / decimalDivider),
         }));
 
         this.setState({ chartData });
@@ -2034,7 +2044,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       } else {
         const chartData = Object.entries(rawData).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000000),
+          y: Math.round(Number(y) / decimalDivider),
         }));
 
         this.setState({ chartData });
@@ -2055,7 +2065,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       } else {
         const chartData = Object.entries(rawData).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000000),
+          y: Math.round(Number(y) / decimalDivider),
         }));
         this.setState({ chartData });
       }
@@ -2075,7 +2085,7 @@ We use string sort function if value is one of the arrays else do second sort nu
       } else {
         const chartData = Object.entries(rawData).map(([x, y]) => ({
           x: Number(x),
-          y: Math.round(Number(y) / 100000000),
+          y: Math.round(Number(y) / decimalDivider),
         }));
         this.setState({ chartData });
       }
@@ -2145,314 +2155,314 @@ We use string sort function if value is one of the arrays else do second sort nu
           }
         : {};
 
-        const maxStakeOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    min: Math.min(...this.state.chartData.map((data) => data.x)),
-                    max: Math.max(...this.state.chartData.map((data) => data.x)),
-                    stepSize: 20000,
-                    callback: function (value) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const maxStakeOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Max Effective Stake (CACAO)",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: Math.min(...this.state.chartData.map((data) => data.x)),
+                  max: Math.max(...this.state.chartData.map((data) => data.x)),
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Max Effective Stake (CACAO)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const totalBondOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    min: Math.min(...this.state.chartData.map((data) => data.x)),
-                    max: Math.max(...this.state.chartData.map((data) => data.x)),
-                    stepSize: 20000,
-                    callback: function (value) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const totalBondOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Total Bond Amount (CACAO)",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: Math.min(...this.state.chartData.map((data) => data.x)),
+                  max: Math.max(...this.state.chartData.map((data) => data.x)),
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Total Bond Amount (CACAO)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const maxPositionOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    min: this.state.minX,
-                    max: this.state.maxX,
-                    stepSize: 20000,
-                    callback: function (value) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const maxPositionOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Position",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    min: 0,
-                    max: 40,
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: this.state.minX,
+                  max: this.state.maxX,
+                  stepSize: 20000,
+                  callback: function (value) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Position",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  min: 0,
+                  max: 40,
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const slashesOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    callback: function (value, index, values) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const slashesOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Slashes Value",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  callback: function (value, index, values) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Slashes Value",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const rewardsOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    callback: function (value, index, values) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const rewardsOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Reward Amount (CACAO)",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  callback: function (value, index, values) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Reward Amount (CACAO)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
-        const bondOptions = this.state.chartData
-        ? {
-            scales: {
-              xAxes: [
-                {
-                  type: "linear",
-                  position: "bottom",
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Block Height",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    min: Math.min(...this.state.chartData.map((data) => data.x)),
-                    stepSize: 20000,
-                    callback: function (value, index, values) {
-                      return value;
-                    },
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+    const bondOptions = this.state.chartData
+      ? {
+          scales: {
+            xAxes: [
+              {
+                type: "linear",
+                position: "bottom",
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
                 },
-              ],
-              yAxes: [
-                {
-                  gridLines: {
-                    color:
-                      this.context.theme === "light"
-                        ? "#E0E0E0"
-                        : "rgba(255, 255, 255, 0.1)",
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Bond Amount (CACAO)",
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
-                  ticks: {
-                    fontColor: this.context.theme === "light" ? "black" : "white",
-                  },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Block Height",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
                 },
-              ],
-            },
-          }
-        : {};
+                ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 10,
+                  min: Math.min(...this.state.chartData.map((data) => data.x)),
+                  stepSize: 20000,
+                  callback: function (value, index, values) {
+                    return value;
+                  },
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+            yAxes: [
+              {
+                gridLines: {
+                  color:
+                    this.context.theme === "light"
+                      ? "#E0E0E0"
+                      : "rgba(255, 255, 255, 0.1)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Bond Amount (CACAO)",
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+                ticks: {
+                  fontColor: this.context.theme === "light" ? "black" : "white",
+                },
+              },
+            ],
+          },
+        }
+      : {};
 
     return (
       <Layout>
@@ -2475,9 +2485,21 @@ We use string sort function if value is one of the arrays else do second sort nu
               <img
                 alt="#"
                 src={mayaLogo}
-                style={{ width: 180, margin: "auto 10px auto 0", verticalAlign: 'middle' }}
+                style={{
+                  width: 180,
+                  margin: "auto 10px auto 0",
+                  verticalAlign: "middle",
+                }}
               />
-              <span style={{ color: "white", verticalAlign: 'middle', marginTop: '25px' }}>Monitor</span>
+              <span
+                style={{
+                  color: "white",
+                  verticalAlign: "middle",
+                  marginTop: "25px",
+                }}
+              >
+                Monitor
+              </span>
             </Link>
           </div>
           <div className="header-right">

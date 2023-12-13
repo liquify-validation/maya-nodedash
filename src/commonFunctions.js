@@ -5,6 +5,7 @@ import { awsConfig } from "./aws-exports";
 //import { useDispatch, useSelector } from 'react-redux';
 import moment from "moment";
 import semver from "semver";
+import { decimalDivider } from "../src/containers/A_monitor/data.js";
 
 import axios from "axios";
 
@@ -110,9 +111,10 @@ export const getData = async () => {
           );
     item.apy =
       (
-        (((item.current_award / ratioRewardsAPY / 100000000) * churnsInYear) /
-          (item.bond / 100000000)) *
-        1000
+        (((item.current_award / ratioRewardsAPY / decimalDivider) *
+          churnsInYear) /
+          (item.bond / decimalDivider)) *
+        100
       ).toFixed(2) + "%";
     return item;
   });
@@ -124,8 +126,7 @@ export const getData = async () => {
     const a = data.map((item) => item.filter((item) => item.chain === chain)); //Get data just for out chain
     const b = a.filter((item) => item.length > 0); //Filter out if any nodes have missing data
     const c = b.map((item) => item[0].height); //Grab just the height metric
-    const d = c.reduce((a, b) => Math.max(a, b), -Infinity);
-    ; //Grab max of our values
+    const d = c.reduce((a, b) => Math.max(a, b), -Infinity); //Grab max of our values
     return d;
   }
   //console.log('data2', data2)
@@ -159,7 +160,7 @@ export const getData = async () => {
       DASH: maxDASHHeight,
       AVAX: maxAVAXHeight,
       BSC: maxBSCHeight,
-      KUJI: maxKUJIHeight
+      KUJI: maxKUJIHeight,
     },
   };
 };
