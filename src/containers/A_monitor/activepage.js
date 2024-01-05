@@ -17,6 +17,7 @@ import {
   RightOutlined,
   HistoryOutlined,
   DotChartOutlined,
+  ProjectOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "../../ThemeContext.js";
 import ThemeToggleButton from "./ThemeToggleButton.js";
@@ -1421,6 +1422,19 @@ const NodeTable = ({
                         />
                       </span>
                     </Popover>
+                    <Popover content={"Generate Report"} trigger="hover">
+                      <Link
+                        to={{
+                          pathname: PUBLIC_ROUTE.REPORT,
+                          state: { nodeAddress: item.node_address },
+                        }}
+                      >
+                        <span className="icon-wrapper">
+                          <ProjectOutlined style={{ stroke: "currentColor" }} />
+                        </span>
+                      </Link>
+                    </Popover>
+
                     <Icons
                       address={item.node_address}
                       ip_address={item.ip_address}

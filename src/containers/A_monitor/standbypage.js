@@ -20,6 +20,7 @@ import {
   RightOutlined,
   HistoryOutlined,
   DotChartOutlined,
+  ProjectOutlined,
 } from "@ant-design/icons";
 import heartBlank from "@iso/assets/images/heart-blank.png";
 import heartBlankWhite from "@iso/assets/images/heart-white.png";
@@ -1212,6 +1213,18 @@ const NodeTable = ({
                           onClick={() => handleNodePosition(item.node_address)}
                         />
                       </span>
+                    </Popover>
+                    <Popover content={"Generate Report"} trigger="hover">
+                      <Link
+                        to={{
+                          pathname: PUBLIC_ROUTE.REPORT,
+                          state: { nodeAddress: item.node_address },
+                        }}
+                      >
+                        <span className="icon-wrapper">
+                          <ProjectOutlined style={{ stroke: "currentColor" }} />
+                        </span>
+                      </Link>
                     </Popover>
                     <Icons
                       address={item.node_address}

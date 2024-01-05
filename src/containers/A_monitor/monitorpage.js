@@ -1,6 +1,5 @@
 import React, { Component, useState } from "react";
 import isEmpty from "lodash/isEmpty";
-import { UpOutlined, DownOutlined, DotChartOutlined } from "@ant-design/icons";
 import { decimalDivider } from "./data.js";
 import CustomLineChart from "./CustomLineChart";
 import CustomScatterChart from "./CustomScatterChart";
@@ -22,6 +21,8 @@ import {
   LeftOutlined,
   RightOutlined,
   HistoryOutlined,
+  DotChartOutlined,
+  ProjectOutlined,
 } from "@ant-design/icons";
 import { useTheme } from "../../ThemeContext.js";
 import { ThemeContext } from "../../ThemeContext.js";
@@ -1441,6 +1442,19 @@ const NodeTable = ({
                           onClick={() => handleNodePosition(item.node_address)}
                         />
                       </span>
+                    </Popover>
+
+                    <Popover content={"Generate Report"} trigger="hover">
+                      <Link
+                        to={{
+                          pathname: PUBLIC_ROUTE.REPORT,
+                          state: { nodeAddress: item.node_address },
+                        }}
+                      >
+                        <span className="icon-wrapper">
+                          <ProjectOutlined style={{ stroke: "currentColor" }} />
+                        </span>
+                      </Link>
                     </Popover>
 
                     <Icons

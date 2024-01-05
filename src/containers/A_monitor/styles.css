@@ -2,6 +2,11 @@
   /* Light Theme */
   --bg-color: white;
   --table-body-bg: linear-gradient(90.11deg, #ffffff 1.08%, #eef0fa 100%);
+  --table-report-body-bg: linear-gradient(
+    90.11deg,
+    #ffffff 1.08%,
+    #eef0fa 100%
+  );
   --page-bg-color: white;
   --text-color: black;
   --icon-color: #7e7e7e;
@@ -20,6 +25,7 @@
   /* Dark Theme */
   --bg-color: #0c0d10;
   --table-body-bg: linear-gradient(90.11deg, #121212 1.08%, #2a2a2a 100%);
+  --table-report-body-bg: #151515;
   --page-bg-color: #121526;
   --text-color: white;
   --icon-color: white;
@@ -114,9 +120,7 @@ td {
   padding-bottom: 28px;
 }
 .overview-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  column-count: 5;
   background: linear-gradient(
     269.82deg,
     var(--bg-color) -20.26%,
@@ -131,13 +135,29 @@ td {
   margin-top: 30px;
 }
 
+.overview-list-report {
+  column-count: 4;
+  background: linear-gradient(
+    269.82deg,
+    var(--bg-color) -20.26%,
+    var(--bg-color) 99.82%
+  );
+  opacity: 0.8;
+  border-radius: 10px;
+  padding: 36px 40px 10px;
+  filter: var(--drop-shadow-color);
+  max-width: 1880px;
+  min-width: 1000px;
+  margin: auto;
+  margin-top: 30px;
+}
+
 .overview-item {
   display: flex;
   align-items: center;
   margin-bottom: 36px;
   flex: 0 0 calc(20% - 50px);
-
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .overview-item__value {
@@ -756,4 +776,144 @@ tr:first-child {
 button.ant-btn.ant-btn-secondary.button-filter {
   background: var(--bg-color) !important;
   border-color: var(--bg-color) !important;
+}
+
+.icon-wrapper svg,
+.icon-wrapper a svg {
+  color: var(--icon-color);
+}
+
+[data-theme="dark"] .icon-wrapper svg,
+[data-theme="dark"] .icon-wrapper a svg {
+  color: var(--icon-color);
+}
+
+.report-card {
+  margin-bottom: 16px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border-color: var(--border-color);
+  background: linear-gradient(
+    269.82deg,
+    var(--bg-color) -20.26%,
+    var(--bg-color) 99.82%
+  );
+  opacity: 0.9;
+}
+
+.report-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 0 10px;
+}
+
+.report-card-item {
+  flex: 0 0 12%;
+  margin-bottom: 32px;
+}
+
+.report {
+  margin-top: 64px;
+  margin-bottom: 32px;
+}
+
+.custom-select .ant-select-selector {
+  border-color: lightslategray !important;
+}
+
+.custom-select .ant-select-selection-placeholder {
+  color: lightslategray !important;
+  font-weight: 500;
+}
+
+.custom-select .ant-select-selection-item {
+  color: #333 !important;
+}
+
+.report-title {
+  font-size: 30px;
+  font-weight: 700;
+  font-family: "Montserrat";
+  color: var(--text-color) !important;
+}
+
+.report-subtitle {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: "Montserrat";
+  color: var(--text-color) !important;
+}
+
+.report-card .ant-card-head-title {
+  font-family: "Montserrat";
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-color) !important;
+}
+
+.report-card p {
+  font-family: "Montserrat";
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--text-color) !important;
+}
+
+.table-report {
+  max-width: 1880px;
+  min-width: 1000px;
+  border-radius: 10px;
+  background-color: var(--text-color) !important;
+  box-shadow: var(--drop-shadow-color);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-report .ant-table-thead > tr > th {
+  background-color: var(--table-header-color) !important;
+  color: var(--text-color) !important;
+  font-weight: bold;
+}
+
+.table-report .ant-table-tbody > tr > td {
+  background-color: var(--table-report-body-bg) !important;
+  color: var(--text-color) !important;
+  font-weight: 500;
+}
+
+.table-report .ant-pagination-item,
+.table-report .ant-pagination-item-link {
+  border-color: var(--border-color) !important;
+}
+
+.table-report .ant-pagination-item-active {
+  background-color: var(--background-color) !important;
+  border-color: var(--link-color) !important;
+}
+
+.table-report .ant-pagination {
+  margin-right: 30px !important;
+  background-color: var(--table-body-bg) !important;
+}
+
+.ant-table-wrapper {
+  background-color: var(--table-report-body-bg) !important;
+}
+
+.table-report .ant-table-tbody > tr:hover > td {
+  background-color: #1c39bb !important;
+  opacity: 1;
+}
+
+.table-report .ant-pagination-item,
+.table-report .ant-pagination-prev,
+.table-report .ant-pagination-next,
+.table-report .ant-pagination-jump-prev,
+.table-report .ant-pagination-jump-next {
+  border: 1.5px solid #1c39bb;
+  font-weight: 500;
+}
+
+tr:hover > td {
+  background-color: #1c39bb !important;
+  opacity: 1;
 }
