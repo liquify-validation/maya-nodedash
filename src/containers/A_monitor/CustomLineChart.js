@@ -28,8 +28,6 @@ class CustomLineChart extends Component {
       this.chartInstance.options.scales.yAxes[0].scaleLabel.labelString;
     let newLabel;
 
-    console.log("Current label before toggle:", currentLabel);
-
     if (
       currentLabel === "Reward Amount (CACAO)" ||
       currentLabel === "Average (CACAO) per 100 Blocks"
@@ -46,8 +44,6 @@ class CustomLineChart extends Component {
       console.error("Unhandled label case in toggle change:", currentLabel);
       return;
     }
-
-    console.log("New label after toggle:", newLabel);
 
     this.setState({ activeDatasetIndex: checked ? 1 : 0 }, () => {
       this.updateYAxisLabel(newLabel);
@@ -70,11 +66,6 @@ class CustomLineChart extends Component {
     const { activeDatasetIndex } = this.state;
     const dataset = data.datasets[activeDatasetIndex] || data.datasets[0];
 
-    console.log(
-      "create chart data.datasets[activeDatasetIndex]",
-      data.datasets[activeDatasetIndex]
-    );
-
     this.chartInstance = new Chart(this.chartRef.current, {
       type: "line",
       data: { datasets: [dataset] },
@@ -86,11 +77,6 @@ class CustomLineChart extends Component {
     const { data, options } = this.props;
     const { activeDatasetIndex } = this.state;
     const dataset = data.datasets[activeDatasetIndex] || data.datasets[0];
-
-    console.log(
-      "update chart data.datasets[activeDatasetIndex]",
-      data.datasets[activeDatasetIndex]
-    );
 
     if (this.chartInstance) {
       this.chartInstance.data = { datasets: [dataset] };
