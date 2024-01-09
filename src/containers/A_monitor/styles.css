@@ -917,3 +917,17 @@ tr:hover > td {
   background-color: #1c39bb !important;
   opacity: 1;
 }
+
+.ant-switch-inner {
+  background-color: red;
+}
+
+/* Default background color when the switch is not checked */
+.custom-switch[aria-checked="false"] {
+  background-color: #4d4d4d;
+}
+
+/* Background color when the switch is checked */
+.custom-switch[aria-checked="true"] {
+  background-color: #1c39bb;
+}

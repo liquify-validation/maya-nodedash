@@ -195,14 +195,14 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
             <path
               d="M8.21201 6.12094C7.93815 5.79037 7.59622 5.52244 7.20939 5.33531C6.82257 5.14818 6.3999 5.04623 5.97006 5.03638C5.54022 5.02653 5.11326 5.10902 4.71815 5.27823C4.32303 5.44745 3.969 5.69944 3.68006 6.01712L1.96996 7.89664C1.45171 8.48651 1.18641 9.25576 1.23118 10.0387C1.27595 10.8217 1.62723 11.5557 2.20934 12.0827C2.79146 12.6097 3.55784 12.8875 4.34342 12.8562C5.12901 12.825 5.87094 12.4872 6.40942 11.9157L7.38417 10.8444"
               stroke="currentColor"
-              stroke-width="1.2"
+              strokeWidth="1.2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M5.39864 7.52442C5.63159 7.8849 5.93954 8.19119 6.3016 8.42251C6.66366 8.65384 7.07135 8.80479 7.49704 8.86513C7.92272 8.92546 8.35644 8.89377 8.76876 8.77221C9.18109 8.65064 9.56238 8.44204 9.88678 8.16056L11.8067 6.49526C12.3909 5.97045 12.7451 5.23775 12.793 4.45497C12.8409 3.67219 12.5787 2.90196 12.0628 2.31017C11.5469 1.71838 10.8186 1.35238 10.0348 1.291C9.25103 1.22962 8.47442 1.47778 7.87227 1.98201L6.77194 2.93082"
               stroke="currentColor"
-              stroke-width="1.2"
+              strokeWidth="1.2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -229,42 +229,42 @@ const Icons = ({ address, ip_address, addToFav, whichHeart }) => {
             <path
               d="M10.0209 5.95871L9.20835 6.77121L6.22919 3.79204L7.04169 2.97954C7.44794 2.57327 8.93752 1.8962 10.0209 2.97954C11.1042 4.06288 10.4271 5.55243 10.0209 5.95871Z"
               stroke="currentColor"
-              stroke-width="1.2"
+              strokeWidth="1.2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M11.375 1.625L10.0208 2.97917"
               stroke="currentColor"
-              stroke-width="1.2"
+              strokeWidth="1.2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M2.97917 7.04199L3.79167 6.22949L6.77083 9.20866L5.95833 10.0212C5.55208 10.4274 4.0625 11.1045 2.97917 10.0212C1.89583 8.93783 2.57292 7.44827 2.97917 7.04199Z"
               stroke="currentColor"
-              stroke-width="1.2"
+              strokeWidth="1.2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M6.22919 8.66634L7.31252 7.58301"
               stroke="currentColor"
-              stroke-width="1.2"
+              strokeWidth="1.2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M1.625 11.3747L2.97917 10.0205"
               stroke="currentColor"
-              stroke-width="1.2"
+              strokeWidth="1.2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M4.33331 6.77083L5.41665 5.6875"
               stroke="currentColor"
-              stroke-width="1.2"
+              strokeWidth="1.2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -726,6 +726,7 @@ const NodeTable = ({
   addToFav,
   whichHeart,
   chartDataConfig,
+  activeDatasetIndex,
   bondOptions,
   rewardsOptions,
   slashesOptions,
@@ -1218,12 +1219,7 @@ const NodeTable = ({
                       </span>
                     </Popover>
                     <Popover content={"Generate Report"} trigger="hover">
-                      <Link
-                        to={{
-                          pathname: PUBLIC_ROUTE.REPORT,
-                          state: { nodeAddress: item.node_address },
-                        }}
-                      >
+                      <Link to={`${PUBLIC_ROUTE.REPORT}/${item.node_address}`}>
                         <span className="icon-wrapper">
                           <ProjectOutlined style={{ stroke: "currentColor" }} />
                         </span>
@@ -1375,6 +1371,7 @@ const NodeTable = ({
                             <CustomLineChart
                               key={JSON.stringify(chartDataConfig)}
                               data={chartDataConfig}
+                              activeDatasetIndex={activeDatasetIndex}
                               options={rewardsOptions}
                             />
                           ) : (
@@ -1423,6 +1420,7 @@ const NodeTable = ({
                           <CustomLineChart
                             key={JSON.stringify(chartDataConfig)}
                             data={chartDataConfig}
+                            activeDatasetIndex={activeDatasetIndex}
                             options={slashesOptions}
                           />
                         ) : (
@@ -1619,6 +1617,7 @@ export default class extends Component {
       sortBy: "bond",
       sortDirection: "desc",
       activeNodes: [],
+      activeDatasetIndex: 0,
       standByNodes: [],
       whitelistedNodes: [],
       animateBlockCount: false,
@@ -2012,21 +2011,40 @@ We use string sort function if value is one of the arrays else do second sort nu
 
   handleClickSlashes = async (node_address) => {
     this.setState({ isPopoverOpen: true });
-    const url = `https://maya-api.liquify.com/maya/api/grabSlashes=${node_address}`;
+
+    const url1 = `https://maya-api.liquify.com/maya/api/grabSlashes=${node_address}`;
+    const url2 = `https://maya-api.liquify.com/maya/api/grabSlashesAvg=${node_address}`;
+
     try {
-      const response = await fetch(url);
-      const rawData = await response.json();
-      if (!rawData || Object.keys(rawData).length === 0) {
+      const response1 = await fetch(url1);
+      const rawData1 = await response1.json();
+
+      const response2 = await fetch(url2);
+      const rawData2 = await response2.json();
+
+      if (
+        !rawData1 ||
+        Object.keys(rawData1).length === 0 ||
+        !rawData2 ||
+        Object.keys(rawData2).length === 0
+      ) {
         this.setState({ chartData: null });
       } else {
-        const chartData = Object.entries(rawData).map(([x, y]) => ({
+        const chartData1 = Object.entries(rawData1).map(([x, y]) => ({
           x: Number(x),
           y: Number(y),
         }));
-        this.setState({ chartData });
+
+        const chartData2 = Object.entries(rawData2).map(([x, y]) => ({
+          x: Number(x),
+          y: parseFloat(Number(y).toFixed(3)),
+        }));
+
+        this.setState({ chartData: [chartData1, chartData2] });
       }
     } catch (error) {
-      console.error(`Error fetching data from ${url}:`, error);
+      console.error(`Error fetching data:`, error);
+      this.setState({ chartData: null });
     }
   };
 
@@ -2074,21 +2092,40 @@ We use string sort function if value is one of the arrays else do second sort nu
 
   handleClickRewards = async (node_address) => {
     this.setState({ isPopoverOpen: true });
-    const url = `https://maya-api.liquify.com/maya/api/grabRewards=${node_address}`;
+
+    const url1 = `https://maya-api.liquify.com/maya/api/grabRewards=${node_address}`;
+    const url2 = `https://maya-api.liquify.com/maya/api/grabRewardsAvg=${node_address}`;
+
     try {
-      const response = await fetch(url);
-      const rawData = await response.json();
-      if (!rawData || Object.keys(rawData).length === 0) {
+      const response1 = await fetch(url1);
+      const rawData1 = await response1.json();
+
+      const response2 = await fetch(url2);
+      const rawData2 = await response2.json();
+
+      if (
+        !rawData1 ||
+        Object.keys(rawData1).length === 0 ||
+        !rawData2 ||
+        Object.keys(rawData2).length === 0
+      ) {
         this.setState({ chartData: null });
       } else {
-        const chartData = Object.entries(rawData).map(([x, y]) => ({
+        const chartData1 = Object.entries(rawData1).map(([x, y]) => ({
           x: Number(x),
           y: Math.round(Number(y) / decimalDivider),
         }));
-        this.setState({ chartData });
+
+        const chartData2 = Object.entries(rawData2).map(([x, y]) => ({
+          x: Number(x),
+          y: Math.round(Number(y) / 10000000),
+        }));
+
+        this.setState({ chartData: [chartData1, chartData2] });
       }
     } catch (error) {
-      console.error(`Error fetching data from ${url}:`, error);
+      console.error(`Error fetching data:`, error);
+      this.setState({ chartData: null });
     }
   };
 
@@ -2139,8 +2176,35 @@ We use string sort function if value is one of the arrays else do second sort nu
     const { loading, nodesFilter, visibleColumns, whitelistedNodes } =
       this.state;
 
-    const chartDataConfig = this.state.chartData
-      ? {
+    let chartDataConfig;
+
+    if (this.state.chartData) {
+      const isMultipleDatasets = Array.isArray(this.state.chartData[0]);
+
+      if (isMultipleDatasets) {
+        chartDataConfig = {
+          datasets: this.state.chartData.map((dataset, index) => {
+            let label;
+            if (index === 0) {
+              label = "Value";
+            } else if (index === 1) {
+              label = "Average";
+            } else {
+              label = `Dataset ${index + 1}`;
+            }
+
+            return {
+              label: label,
+              data: dataset,
+              fill: false,
+              backgroundColor: "rgb(28, 57, 182)",
+              borderColor: "rgba(28, 57, 187, 0.2)",
+              tension: 0,
+            };
+          }),
+        };
+      } else {
+        chartDataConfig = {
           datasets: [
             {
               label: "Value",
@@ -2151,8 +2215,11 @@ We use string sort function if value is one of the arrays else do second sort nu
               tension: 0,
             },
           ],
-        }
-      : {};
+        };
+      }
+    } else {
+      chartDataConfig = {};
+    }
 
     const maxPositionChartDataConfig =
       this.state.maxData && this.state.positionData
@@ -2616,6 +2683,7 @@ We use string sort function if value is one of the arrays else do second sort nu
                     sortBy={this.state.sortBy}
                     sortDirection={this.state.sortDirection}
                     chartDataConfig={chartDataConfig}
+                    activeDatasetIndex={this.state.activeDatasetIndex}
                     bondOptions={bondOptions}
                     rewardsOptions={rewardsOptions}
                     slashesOptions={slashesOptions}

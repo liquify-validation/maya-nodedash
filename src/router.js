@@ -1,5 +1,10 @@
 import React, { lazy, Suspense } from "react";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 import ErrorBoundary from "./ErrorBoundary";
 import { PUBLIC_ROUTE } from "./route.constants";
@@ -34,6 +39,11 @@ const publicRoutes = [
     exact: true,
     component: lazy(() => import("@iso/containers/A_monitor/report.js")),
   },
+  {
+    path: `${PUBLIC_ROUTE.REPORT}/:nodeAddress`,
+    exact: true,
+    component: lazy(() => import("@iso/containers/A_monitor/report.js")),
+  },
 ];
 
 export default function Routes() {
@@ -42,6 +52,19 @@ export default function Routes() {
       <Suspense fallback={<Loader />}>
         <Router>
           <Switch>
+            <Route
+              path={`${PUBLIC_ROUTE.REPORT}/:nodeAddress`}
+              exact
+              component={lazy(() =>
+                import("@iso/containers/A_monitor/report.js")
+              )}
+            />
+
+            <Route
+              path={PUBLIC_ROUTE.REPORT}
+              exact
+              render={() => <Redirect to={PUBLIC_ROUTE.LANDING} />}
+            />
             {publicRoutes.map((route, index) => (
               <Route key={index} path={route.path} exact={route.exact}>
                 <route.component />

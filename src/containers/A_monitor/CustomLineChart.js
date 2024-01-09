@@ -1,48 +1,99 @@
 import React, { Component } from "react";
 import { Chart } from "chart.js";
+import { Switch } from "antd";
 
 class CustomLineChart extends Component {
   chartRef = React.createRef();
   chartInstance = null;
+  state = {
+    activeDatasetIndex: 0,
+  };
 
   componentDidMount() {
     this.createChart();
   }
 
-  shouldComponentUpdate(nextProps) {
-    const { data } = this.props;
-    const nextData = nextProps.data;
-
-    if (data.datasets.length !== nextData.datasets.length) return true;
-
-    for (let i = 0; i < data.datasets.length; i++) {
-      if (data.datasets[i].data !== nextData.datasets[i].data) return true;
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.activeDatasetIndex !== this.state.activeDatasetIndex) {
+      this.updateChart();
     }
-
-    return false;
-  }
-
-  componentDidUpdate() {
-    this.updateChart();
   }
 
   componentWillUnmount() {
     this.destroyChart();
   }
 
+  handleToggleChange = (checked) => {
+    let currentLabel =
+      this.chartInstance.options.scales.yAxes[0].scaleLabel.labelString;
+    let newLabel;
+
+    console.log("Current label before toggle:", currentLabel);
+
+    if (
+      currentLabel === "Reward Amount (CACAO)" ||
+      currentLabel === "Average (CACAO) per 100 Blocks"
+    ) {
+      newLabel = checked
+        ? "Average (CACAO) per 100 Blocks"
+        : "Reward Amount (CACAO)";
+    } else if (
+      currentLabel === "Slashes Value" ||
+      currentLabel === "Average slashes per 100 Blocks"
+    ) {
+      newLabel = checked ? "Average slashes per 100 Blocks" : "Slashes Value";
+    } else {
+      console.error("Unhandled label case in toggle change:", currentLabel);
+      return;
+    }
+
+    console.log("New label after toggle:", newLabel);
+
+    this.setState({ activeDatasetIndex: checked ? 1 : 0 }, () => {
+      this.updateYAxisLabel(newLabel);
+    });
+  };
+
+  updateYAxisLabel(newLabel) {
+    if (
+      this.chartInstance &&
+      this.chartInstance.options.scales.yAxes[0].scaleLabel
+    ) {
+      this.chartInstance.options.scales.yAxes[0].scaleLabel.labelString =
+        newLabel;
+      this.chartInstance.update();
+    }
+  }
+
   createChart() {
     const { data, options } = this.props;
+    const { activeDatasetIndex } = this.state;
+    const dataset = data.datasets[activeDatasetIndex] || data.datasets[0];
+
+    console.log(
+      "create chart data.datasets[activeDatasetIndex]",
+      data.datasets[activeDatasetIndex]
+    );
+
     this.chartInstance = new Chart(this.chartRef.current, {
       type: "line",
-      data,
+      data: { datasets: [dataset] },
       options,
     });
   }
 
   updateChart() {
     const { data, options } = this.props;
+    const { activeDatasetIndex } = this.state;
+    const dataset = data.datasets[activeDatasetIndex] || data.datasets[0];
+
+    console.log(
+      "update chart data.datasets[activeDatasetIndex]",
+      data.datasets[activeDatasetIndex]
+    );
+
     if (this.chartInstance) {
-      this.chartInstance.data = data;
+      this.chartInstance.data = { datasets: [dataset] };
       this.chartInstance.options = options;
       this.chartInstance.update();
     }
@@ -55,8 +106,29 @@ class CustomLineChart extends Component {
   }
 
   render() {
+    const { data } = this.props;
+    const { activeDatasetIndex } = this.state;
+    const multipleDatasets = data.datasets && data.datasets.length > 1;
+
     return (
-      <div className="custom-line-chart">
+      <div className="custom-line-chart" style={{ textAlign: "center" }}>
+        {multipleDatasets && (
+          <div
+            style={{
+              alignItems: "center",
+              textAlign: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <Switch
+              onChange={this.handleToggleChange}
+              className="custom-switch"
+            />
+            <span style={{ marginLeft: "10px", fontSize: "14px" }}>
+              Average / 100 Blocks
+            </span>
+          </div>
+        )}
         <canvas ref={this.chartRef} />
       </div>
     );
