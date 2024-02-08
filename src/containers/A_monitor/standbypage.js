@@ -328,8 +328,6 @@ const GlobalData = ({
   chartDataConfig,
   totalBondOptions,
   handlePopoverVisibility,
-  handleMaxEffectiveStake,
-  maxStakeOptions,
 }) => {
   const { theme } = useTheme();
   let timeToDisplay = "";
@@ -431,65 +429,6 @@ const GlobalData = ({
           </div>
         </div>
       </div>
-      <Popover
-        content={
-          <div>
-            <p>
-              $
-              {(
-                parseInt(globalData.maxEffectiveStake / decimalDivider) *
-                globalData?.coingecko?.current_price
-              ).toLocaleString()}
-            </p>
-          </div>
-        }
-        title={"Max Effective Bond in Dollars"}
-        trigger="hover"
-        overlayClassName="dollar-popover"
-      >
-        <Popover
-          content={
-            chartDataConfig?.datasets?.[0]?.data &&
-            chartDataConfig.datasets[0].data.length > 0 ? (
-              <CustomLineChart
-                key={JSON.stringify(chartDataConfig)}
-                data={chartDataConfig}
-                options={maxStakeOptions}
-              />
-            ) : (
-              <div>No data available</div>
-            )
-          }
-          title="Max Effective Stake Over Time"
-          trigger="click"
-          overlayClassName="my-custom-popover"
-          onVisibleChange={(visible) => handlePopoverVisibility(visible)}
-        >
-          <div
-            className="overview-item"
-            onClick={handleMaxEffectiveStake}
-            style={{ cursor: "pointer" }}
-          >
-            <img
-              alt="#"
-              src={theme === "light" ? verticalTopIcon : verticalTopIconDark}
-              className="overview-item__icon"
-            />
-            <div className="overview-item__value">
-              <div className="overview-item__value-title">
-                MAX EFFECTIVE BOND
-              </div>
-              <div className="overview-item__value-value">
-                <HistoryOutlined style={{ marginRight: 4 }} />
-                {parseInt(
-                  globalData.maxEffectiveStake / decimalDivider
-                ).toLocaleString()}{" "}
-                CACAO
-              </div>
-            </div>
-          </div>
-        </Popover>
-      </Popover>
 
       <Popover
         content={
@@ -2043,27 +1982,6 @@ We use string sort function if value is one of the arrays else do second sort nu
     }
   };
 
-  handleMaxEffectiveStake = async () => {
-    this.setState({ isPopoverOpen: true });
-    const url = `https://maya-api.liquify.com/maya/api/maxEffectiveStake`;
-    try {
-      const response = await fetch(url);
-      const rawData = await response.json();
-      if (!rawData || Object.keys(rawData).length === 0) {
-        this.setState({ chartData: null });
-      } else {
-        const chartData = Object.entries(rawData).map(([x, y]) => ({
-          x: Number(x),
-          y: Math.round(Number(y) / decimalDivider),
-        }));
-
-        this.setState({ chartData });
-      }
-    } catch (error) {
-      console.error(`Error fetching data from ${url}:`, error);
-    }
-  };
-
   handleClickTotalBond = async () => {
     this.setState({ isPopoverOpen: true });
     const url = `https://maya-api.liquify.com/maya/api/totalBond`;
@@ -2234,59 +2152,6 @@ We use string sort function if value is one of the arrays else do second sort nu
             ],
           }
         : {};
-
-    const maxStakeOptions = this.state.chartData
-      ? {
-          scales: {
-            xAxes: [
-              {
-                type: "linear",
-                position: "bottom",
-                gridLines: {
-                  color:
-                    this.context.theme === "light"
-                      ? "#E0E0E0"
-                      : "rgba(255, 255, 255, 0.1)",
-                },
-                scaleLabel: {
-                  display: true,
-                  labelString: "Block Height",
-                  fontColor: this.context.theme === "light" ? "black" : "white",
-                },
-                ticks: {
-                  autoSkip: true,
-                  maxTicksLimit: 10,
-                  min: Math.min(...this.state.chartData.map((data) => data.x)),
-                  max: Math.max(...this.state.chartData.map((data) => data.x)),
-                  stepSize: 20000,
-                  callback: function (value) {
-                    return value;
-                  },
-                  fontColor: this.context.theme === "light" ? "black" : "white",
-                },
-              },
-            ],
-            yAxes: [
-              {
-                gridLines: {
-                  color:
-                    this.context.theme === "light"
-                      ? "#E0E0E0"
-                      : "rgba(255, 255, 255, 0.1)",
-                },
-                scaleLabel: {
-                  display: true,
-                  labelString: "Max Effective Stake (CACAO)",
-                  fontColor: this.context.theme === "light" ? "black" : "white",
-                },
-                ticks: {
-                  fontColor: this.context.theme === "light" ? "black" : "white",
-                },
-              },
-            ],
-          },
-        }
-      : {};
 
     const totalBondOptions = this.state.chartData
       ? {
@@ -2637,9 +2502,7 @@ We use string sort function if value is one of the arrays else do second sort nu
                     handleClickTotalBond={this.handleClickTotalBond}
                     chartDataConfig={chartDataConfig}
                     totalBondOptions={totalBondOptions}
-                    maxStakeOptions={maxStakeOptions}
                     handlePopoverVisibility={this.handlePopoverVisibility}
-                    handleMaxEffectiveStake={this.handleMaxEffectiveStake}
                   />
                   <CoinGeckoData globalData={this.state.globalData} />
                 </div>
