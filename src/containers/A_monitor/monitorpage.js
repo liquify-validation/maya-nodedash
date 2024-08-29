@@ -54,7 +54,7 @@ import eth from "@iso/assets/images/eth.png";
 import bitcoin from "@iso/assets/images/bitcoin.png";
 import kuji from "@iso/assets/images/kuji.png";
 import arb from "@iso/assets/images/arb.png";
-import radix from "@iso/assets/images/radix.png";
+import radix from "@iso/assets/images/radix.svg";
 import blockIcon from "@iso/assets/images/overview/block_icon.svg";
 import blockIconDark from "@iso/assets/images/overview/block_icon_darkmode.svg";
 import highTradingIcon from "@iso/assets/images/overview/24high_trading.svg";
