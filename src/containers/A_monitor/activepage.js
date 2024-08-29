@@ -49,6 +49,7 @@ import eth from "@iso/assets/images/eth.png";
 import kuji from "@iso/assets/images/kuji.png";
 import bitcoin from "@iso/assets/images/bitcoin.png";
 import arb from "@iso/assets/images/arb.png";
+import radix from "@iso/assets/images/radix.png";
 import blockIcon from "@iso/assets/images/overview/block_icon.svg";
 import blockIconDark from "@iso/assets/images/overview/block_icon_darkmode.svg";
 import highTradingIcon from "@iso/assets/images/overview/24high_trading.svg";
@@ -1322,6 +1323,39 @@ const NodeTable = ({
                         />
                       </div>
                     </th>
+                    <th
+                      className={getHeaderClassName("XRD")}
+                      style={{
+                        ...headerStyle,
+                        ...iconStyle,
+                        textAlign: "center",
+                      }}
+                      onClick={() => clickSortHeader("XRD")}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img
+                          alt="#"
+                          src={radix}
+                          style={{
+                            width: 25,
+                            height: 25,
+                            display: "block",
+                            marginRight: "5px",
+                          }}
+                        />
+                        <SortIcon
+                          column={"XRD"}
+                          sortBy={sortBy}
+                          sortDirection={sortDirection}
+                        />
+                      </div>
+                    </th>
                   </>
                 )}
               </tr>
@@ -1736,6 +1770,11 @@ const NodeTable = ({
                         obchains={item.obchains}
                         maxChainHeights={maxChainHeights}
                       />
+                      <ChainTD
+                        chain={"XRD"}
+                        obchains={item.obchains}
+                        maxChainHeights={maxChainHeights}
+                      />
                     </>
                   )}
                 </tr>
@@ -1795,6 +1834,7 @@ const defaulColumns = {
   THOR: true,
   KUJI: true,
   ARB: true,
+  XRD: true,
 };
 export default class extends Component {
   static contextType = ThemeContext;
@@ -2164,7 +2204,7 @@ We use string sort function if value is one of the arrays else do second sort nu
   }
 
   clickSortHeader(item) {
-    const isChain = ["DASH", "BTC", "ETH", "THOR", "KUJI", "ARB"].includes(item);
+    const isChain = ["DASH", "BTC", "ETH", "THOR", "KUJI", "ARB", "XRD"].includes(item);
     const direction =
       this.state.sortBy !== item
         ? "desc"
