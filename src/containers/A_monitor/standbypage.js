@@ -1489,6 +1489,11 @@ const NodeTable = ({
                         obchains={item.obchains}
                         maxChainHeights={maxChainHeights}
                       />
+                      <ChainTD
+                        chain={"ZEC"}
+                        obchains={item.obchains}
+                        maxChainHeights={maxChainHeights}
+                      />
                     </>
                   )}
                 </tr>
