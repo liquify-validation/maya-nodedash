@@ -1,0 +1,90 @@
+/*
+ * Global rules carried over from the old Isomorphic GlobalStyles (styled-components),
+ * trimmed to what the classic dashboard actually renders. Loaded between the antd
+ * core styles and the antd component styles to keep the original cascade order.
+ */
+
+.ant-btn {
+  border-radius: 7px;
+}
+
+.ant-btn-primary {
+  background: #1c39bb;
+  border-color: #1c39bb;
+}
+
+.ant-switch-checked {
+  background: #1c39bb;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td,
+.ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row) > td,
+.ant-table-thead > tr:hover:not(.ant-table-expanded-row) > td,
+.ant-table-tbody > tr:hover:not(.ant-table-expanded-row) > td {
+  background: #f8f8f8 !important;
+}
+
+h1::selection,
+h2::selection,
+h3::selection,
+h4::selection,
+h5::selection,
+h6::selection,
+a::selection,
+p::selection,
+li::selection,
+input::selection,
+textarea::selection,
+span::selection,
+div::selection,
+img::selection,
+svg::selection {
+  background: #4482ff;
+  color: #fff;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
+  color: #182233;
+  letter-spacing: -0.015em;
+}
+
+html h1,
+html h2,
+html h3,
+html h4,
+html h5,
+html h6,
+html a,
+html p,
+html li,
+input,
+textarea,
+span,
+div,
+html,
+body,
+html a {
+  margin-bottom: 0;
+  font-family: "Montserrat", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+}
+
+html ul {
+  -webkit-padding-start: 0px;
+  list-style: none;
+  margin-bottom: 0;
+}
+
+/* Body text inside the "copied to clipboard" confirm dialog. */
+.modal-content p {
+  font-size: 13px;
+  color: #797979;
+  line-height: 1.5;
+}
